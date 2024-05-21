@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List</title>
+    <!-- Utilisation de la police Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Utilisation de la bibliothèque Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f7f4f1;
+            color: #5a4638;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between; /* Aligner les éléments à l'extrême gauche et à l'extrême droite */
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #8b5e34;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin-right: 10px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        nav ul li a:hover {
+            background-color: #6e4626;
+        }
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            color: #8b5e34;
+            margin-bottom: 30px;
+        }
+        .button {
+            background-color: #8b5e34;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #6e4626;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <div></div> <!-- Spacer div to push logout link to the right -->
+    <ul>
+        <li th:if="${#authorization.expression('isAuthenticated()')}">
+            <a href="/logout" class="btn btn-primary">
+                <i class="fas fa-sign-out-alt"></i> <span>Log Out</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<div class="container">
+    <h1>Welcome to ToDo List</h1>
+    <a href="/tasks" class="button">View All Tasks</a>
+    <a href="/categories" class="button">View All Categories</a>
+</div>
+</body>
+</html>

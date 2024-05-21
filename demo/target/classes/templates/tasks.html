@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Tasks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+        nav {
+            background-color: #8b5e34;
+            padding: 10px 0;
+            width: 100%;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            display: flex; /* Aligner les éléments horizontalement */
+            justify-content: center; /* Centrer horizontalement */
+        }
+        nav ul li {
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s; /* Transition douce */
+        }
+        nav ul li a:hover {
+            background-color: #6a431d; /* Couleur de fond au survol */
+        }
+        .task-container {
+            width: 80%;
+            margin-top: 20px;
+        }
+        .task-card {
+            background-color: #fff;
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            width: 100%;
+        }
+        .task-card h2 {
+            margin: 0 0 10px;
+            color: #8b5e34;
+        }
+        .task-card p {
+            margin: 5px 0;
+        }
+        .task-card a {
+            color: #8b5e34;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+        .task-card a:hover {
+            text-decoration: underline;
+        }
+        .add-button {
+            display: block;
+            width: fit-content;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #8b5e34;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .add-button:hover {
+            background-color: #6a431d;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .pagination ul li {
+            display: inline;
+            margin-right: 5px;
+        }
+        .pagination ul li a {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #8b5e34;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .pagination ul li a:hover {
+            background-color: #6a431d;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/">Index</a></li>
+        <a th:if="${not #authorization.expression('isAuthenticated()')}" href="/login" class="btn btn-primary login-btn">
+            <i class="material-icons">&#xE879;</i> <span>Log In</span>
+        </a>
+        <a th:if="${not #authorization.expression('isAuthenticated()')}" href="/register" class="btn btn-secondary sign-in-btn">
+            <i class="material-icons">&#xE7FF;</i> <span>Sign In</span>
+        </a>
+        <li th:if="${#authorization.expression('isAuthenticated()')}">
+            <a href="/logout" class="btn btn-primary">
+                <i class="fas fa-sign-out-alt"></i> <span>Log Out</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<h1>All Tasks</h1>
+<div class="task-container">
+    <!-- Loop through tasks and display them -->
+    <th:block th:each="task : ${tasks}">
+        <div class="task-card">
+            <h2 th:text="${task.name}">Task Name</h2>
+            <p><strong>Description:</strong> <span th:text="${task.description}">Task Description</span></p>
+            <p><strong>Category:</strong> <span th:text="${task.category.name}">Category Name</span></p>
+            <p><strong>Due Date:</strong> <span th:text="${task.dueDate}">Due Date</span></p>
+            <p><strong>Completed:</strong> <span th:text="${task.completed} ? 'Yes' : 'No'">No</span></p>
+            <p>
+                <a th:href="@{/tasks/update/{id}(id=${task.id})}">Edit</a>
+                <a th:href="@{/tasks/delete/{id}(id=${task.id})}">Delete</a>
+            </p>
+        </div>
+    </th:block>
+</div>
+<a href="/tasks/add" class="add-button">Add New Task</a>
+<div class="pagination">
+    <ul>
+        <li th:each="pageNum : ${pageNumbers}">
+            <a th:href="@{/tasks(page=${pageNum})}" th:text="${pageNum + 1}"></a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

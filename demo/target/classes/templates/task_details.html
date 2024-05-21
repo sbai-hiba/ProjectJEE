@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        nav {
+            background-color: #8b5e34;
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="/tasks">Tasks</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/">Index</a></li>
+        <a th:if="${not #authorization.expression('isAuthenticated()')}" href="/login" class="btn btn-primary login-btn">
+            <i class="material-icons">&#xE879;</i> <span>Log In</span>
+        </a>
+        <a th:if="${not #authorization.expression('isAuthenticated()')}" href="/register" class="btn btn-secondary sign-in-btn">
+            <i class="material-icons">&#xE7FF;</i> <span>Sign In</span>
+        </a>
+        <li th:if="${#authorization.expression('isAuthenticated()')}">
+            <a href="/logout" class="btn btn-primary">
+                <i class="fas fa-sign-out-alt"></i> <span>Log Out</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<div class="container">
+    <h1>Task Details</h1>
+    <!-- Display task details here -->
+    <p>Task Name: Task 1</p>
+    <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    <p>Due Date: 2024-04-24</p>
+    <p>Completed: Yes</p>
+    <a href="/task/update/1">Edit Task</a>
+    <a href="/task/delete/1">Delete Task</a>
+</div>
+</body>
+</html>

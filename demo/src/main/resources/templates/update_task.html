@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Task</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f4f1;
+            margin: 0;
+            padding: 0;
+            color: #5a4638;
+        }
+        h1 {
+            color: #8b5e34;
+            text-align: center;
+            margin-top: 20px;
+        }
+        form {
+            width: 50%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #5a4638;
+        }
+        nav {
+            background-color: #8b5e34;
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+        input[type="text"],
+        input[type="date"],
+        input[type="checkbox"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="checkbox"] {
+            width: auto;
+        }
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #8b5e34;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #6e4626;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="/tasks">Tasks</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/">Index</a></li>
+        <a th:if="${not #authorization.expression('isAuthenticated()')}" href="/login" class="btn btn-primary login-btn">
+            <i class="material-icons">&#xE879;</i> <span>Log In</span>
+        </a>
+        <a th:if="${not #authorization.expression('isAuthenticated()')}" href="/register" class="btn btn-secondary sign-in-btn">
+            <i class="material-icons">&#xE7FF;</i> <span>Sign In</span>
+        </a>
+        <li th:if="${#authorization.expression('isAuthenticated()')}">
+            <a href="/logout" class="btn btn-primary">
+                <i class="fas fa-sign-out-alt"></i> <span>Log Out</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<h1>UpdateTask</h1>
+<form th:action="@{/tasks/update/{id}(id=${task.id})}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" th:value="${task.name}">
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" th:value="${task.description}">
+    <label for="dueDate">Due Date:</label>
+    <input type="date" id="dueDate" name="dueDate" th:value="${task.dueDate}">
+    <label for="completed">Completed:</label>
+    <input type="checkbox" id="completed" name="completed" th:checked="${task.completed}">
+    <label for="category">Category:</label>
+    <select name="category" id="category">
+        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${category.id == task.category.id}"></option>
+    </select>
+
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

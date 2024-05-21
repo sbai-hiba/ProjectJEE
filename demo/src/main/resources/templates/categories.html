@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Categories</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f4f1;
+            margin: 0;
+            padding: 0;
+            color: #5a4638;
+        }
+        h1 {
+            color: #8b5e34;
+            text-align: center;
+            margin-top: 20px;
+        }
+        nav {
+            background-color: #8b5e34;
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #eae0d5;
+        }
+        tr:hover {
+            background-color: #f2e8dc;
+        }
+        td a {
+            color: #8b5e34;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+        td a:hover {
+            text-decoration: underline;
+        }
+        .add-button {
+            display: block;
+            width: fit-content;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #8b5e34;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .add-button:hover {
+            background-color: #6e4626;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .pagination ul li {
+            display: inline;
+            margin-right: 5px;
+        }
+        .pagination ul li a {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #8b5e34;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .pagination ul li a:hover {
+            background-color: #6e4626;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="/tasks">Tasks</a></li>
+        <li><a href="/">Index</a></li>
+        <a th:if="${not #authorization.expression('isAuthenticated()')}" href="/login" class="btn btn-primary login-btn">
+            <i class="material-icons">&#xE879;</i> <span>Log In</span>
+        </a>
+        <a th:if="${not #authorization.expression('isAuthenticated()')}" href="/register" class="btn btn-secondary sign-in-btn">
+            <i class="material-icons">&#xE7FF;</i> <span>Sign In</span>
+        </a>
+        <li th:if="${#authorization.expression('isAuthenticated()')}">
+        <a href="/logout" class="btn btn-primary">
+            <i class="fas fa-sign-out-alt"></i> <span>Log Out</span>
+        </a>
+    </li>
+
+    </ul>
+</nav>
+<h1>All Categories</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    <th:block th:each="category : ${categories}">
+        <tr>
+            <td th:text="${category.name}"></td>
+            <td>
+                <a th:href="@{/categories/edit/{id}(id=${category.id})}">Edit</a>
+                <a th:href="@{/categories/delete/{id}(id=${category.id})}">Delete</a>
+                <a th:href="@{/categories/tasks/{id}(id=${category.id})}">Tasks</a>
+            </td>
+        </tr>
+    </th:block>
+</table>
+<a href="/categories/add" class="add-button">Add New Category</a>
+<div class="pagination">
+    <ul>
+        <li th:each="pageNum : ${pageNumbers}">
+            <a th:href="@{/categories(page=${pageNum})}" th:text="${pageNum}"></a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
